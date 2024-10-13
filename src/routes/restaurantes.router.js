@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const RestauranteController = require('../controllers/restaurante.controller');
+const RestauranteController = require('../dominios/restaurantes/controllers/restaurante.controller');
 
 const restauranteRouter = Router();
 
