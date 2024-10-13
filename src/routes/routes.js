@@ -1,9 +1,8 @@
 const { Router } = require('express');
+const restauranteRouter = require('./restaurantes.router');
 
 const routes = Router();
 
-routes.get('/', (req, res) => {
-    return res.json({ message: 'Hello World!' });
-});
+routes.use('/restaurantes', restauranteRouter);
 
 module.exports = routes;
