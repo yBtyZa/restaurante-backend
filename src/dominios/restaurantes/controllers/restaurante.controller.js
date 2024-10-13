@@ -1,5 +1,5 @@
 const RestauranteServices = require('../services/restaurante.services');
-const schema = require('../validations/schemaRestaurantes');
+const schema = require('../../../validations/schemaRestaurantes');
 const Yup = require('yup');
 
 class RestauranteController {

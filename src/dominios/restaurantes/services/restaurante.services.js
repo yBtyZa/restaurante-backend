@@ -1,4 +1,4 @@
-const Restaurantes = require('../models/Restaurantes');
+const Restaurantes = require('../../../models/Restaurantes');
 
 class RestauranteServices {
     async create({ nome, email, senha }) {
