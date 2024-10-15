@@ -13,7 +13,8 @@ function validaToken(req, res, next) {
             return res.status(401).json({ message: "Token inválido!" });
         }
         req.token = {
-            restaurante_id: tokenValido.id
+            restaurante_id: tokenValido.restaurante_id,
+            cliente_id: tokenValido.cliente_id || null
         }
 
         next();
