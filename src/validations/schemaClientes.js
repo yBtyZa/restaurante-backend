@@ -1,6 +1,7 @@
 const Yup = require('yup');
 
 const schema = Yup.object().shape({
+    restaurante_id: Yup.number().required('Restaurante obrigatório'),
     nome: Yup.string().min(3, 'Nome muito curto').max(100, 'Nome muito longo').required('Nome obrigatório'),
     telefone: Yup.string().required('Telefone obrigatório'),
     endereco: Yup.string().required('Endereço obrigatório'),

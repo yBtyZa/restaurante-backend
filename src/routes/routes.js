@@ -10,9 +10,10 @@ const validaToken = require('../middlewares/validaToken');
 const routes = Router();
 
 routes.use('/restaurantes', restauranteRouter);
-routes.use('/login-restaurantes', authRestauranteRouter);
-routes.use('/clientes', validaToken, clientesRouter);
-routes.use('/login-clientes', authClienteRouter);
+routes.use('/clientes', clientesRouter);
+routes.use('/login/restaurantes', authRestauranteRouter);
+routes.use('/login/clientes', authClienteRouter);
 routes.use('/pedidos', validaToken, pedidosRouter);
+
 
 module.exports = routes;
