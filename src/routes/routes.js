@@ -8,6 +8,6 @@ const routes = Router();
 
 routes.use('/restaurantes', restauranteRouter);
 routes.use('/login', authRestauranteRouter);
-routes.use('/clientes', validaToken, clientesRouter);
+routes.use('/clientes', clientesRouter);
 
 module.exports = routes;
