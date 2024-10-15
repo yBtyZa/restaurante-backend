@@ -1,5 +1,5 @@
 const AuthClienteServices = require('../services/auth.cliente.services');
-const schema = require('../../../validations/schemaLogin');
+const schema = require('../../../validations/schemaLoginCliente');
 const Yup = require('yup');
 
 class AuthClienteController {
