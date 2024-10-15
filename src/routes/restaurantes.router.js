@@ -5,4 +5,7 @@ const restauranteRouter = Router();
 
 restauranteRouter.post('/', RestauranteController.create);
 
+//Rotas Pratos
+restauranteRouter.post('/:id/pratos', RestauranteController.createPrato)
+
 module.exports = restauranteRouter;
