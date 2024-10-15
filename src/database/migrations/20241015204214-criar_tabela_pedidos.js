@@ -36,6 +36,9 @@ module.exports = {
         allowNull: false,
         defaultValue: 'Pendente'
       },
+      observacao: {
+        type: Sequelize.TEXT
+      },
       createdAt: {
         type: Sequelize.DATE,
         allowNull: false

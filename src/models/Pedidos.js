@@ -29,6 +29,9 @@ const Pedidos = connection.define('pedidos', {
         allowNull: false,
         defaultValue: 'Pendente'
     },
+    observacao: {
+        type: DataTypes.TEXT,
+    },
     createdAt: {
         type: DataTypes.DATE,
         allowNull: false
