@@ -24,8 +24,7 @@ const Clientes = connection.define('clientes', {
   },
   email: {
     type: DataTypes.STRING,
-    allowNull: false,
-    unique: true
+    allowNull: false
   },
   senha: {
     type: DataTypes.STRING,
