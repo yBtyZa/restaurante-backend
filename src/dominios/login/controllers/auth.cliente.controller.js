@@ -1,17 +1,16 @@
-const AuthRestauranteServices = require('../services/auth.restaurante.services');
+const AuthClienteServices = require('../services/auth.cliente.services');
 const schema = require('../../../validations/schemaLogin');
 const Yup = require('yup');
 
-class AuthRestauranteController {
-
+class AuthClienteController {
     async login(req, res) {
         const { body } = req;
         try {
             // Valida o body da requisição com o esquema Yup
             await schema.validate(body, { abortEarly: false });
 
-            // Efetua o login do restaurante e retorna o token
-            const login = await AuthRestauranteServices.login(body);
+            // Efetua o login do cliente e retorna o token
+            const login = await AuthClienteServices.login(body);
             return res.status(200).json(login);
         } catch (error) {
             // Verifica se o erro é de validação do Yup
@@ -35,4 +34,4 @@ class AuthRestauranteController {
     }
 }
 
-module.exports = new AuthRestauranteController()
+module.exports = new AuthClienteController();
