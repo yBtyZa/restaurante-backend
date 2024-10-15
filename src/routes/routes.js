@@ -11,8 +11,8 @@ const routes = Router();
 
 routes.use('/restaurantes', restauranteRouter);
 routes.use('/clientes', clientesRouter);
-routes.use('/login/restaurantes', authRestauranteRouter);
-routes.use('/login/clientes', authClienteRouter);
+routes.use('/login-restaurantes', authRestauranteRouter);
+routes.use('/login-clientes', authClienteRouter);
 routes.use('/pedidos', validaToken, pedidosRouter);
 
 

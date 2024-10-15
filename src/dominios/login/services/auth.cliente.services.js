@@ -4,10 +4,10 @@ const { sign } = require('jsonwebtoken');
 
 class AuthClienteServices {
 
-    async login({ email, senha }) {
+    async login({ email, senha, restaurante_id }) {
         try {
             // Verifica se o email passado existe
-            const cliente = await Cliente.findOne({ where: { email } });
+            const cliente = await Cliente.findOne({ where: { email, restaurante_id } });
             if (!cliente) {
                 throw new Error("Email não encontrado");
             }
