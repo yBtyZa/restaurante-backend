@@ -10,11 +10,18 @@ class ClientesServices {
             if (!existingRestaurante) {
                 throw new Error("Restaurante não encontrado");
             }
-            // Verifica se o email passado ja existe
-            const existingEmail = await Clientes.findOne({ where: { email: body.email } });
+
+            // Verifica se o email já existe no restaurante específico
+            const existingEmail = await Clientes.findOne({ 
+                where: { 
+                    email: body.email,
+                    restaurante_id: body.restaurante_id // Verifica o email no restaurante
+                }
+            });
             if (existingEmail) {
-                throw new Error("Email já cadastrado");
+                throw new Error("Email já cadastrado para este restaurante");
             }
+
             // Cria o cliente
             const cliente = await Clientes.create(body);
             return cliente;

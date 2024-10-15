@@ -15,14 +15,13 @@ class ClientesController {
 
             return res.status(201).json(cliente);
         }catch(error){
-            console.log(error);
             // Verifica se o erro é de validação do Yup
             if(error instanceof Yup.ValidationError){
                 return res.status(400).json({ message: error.errors });
             }
 
             // Verifica se o erro é relacionado ao email duplicado
-            if (error.message === "Email já cadastrado") {
+            if (error.message === "Email já cadastrado para este restaurante") {
                 return res.status(400).json({ message: error.message });
             }
             
