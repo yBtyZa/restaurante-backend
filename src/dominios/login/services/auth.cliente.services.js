@@ -19,7 +19,7 @@ class AuthClienteServices {
             }
 
             // Cria o token
-            const token = sign({ id: cliente.id, restaurante_id: cliente.restaurante_id }, process.env.JWT_SECRET, {
+            const token = sign({ cliente_id: cliente.id, restaurante_id: cliente.restaurante_id }, process.env.JWT_SECRET, {
                 expiresIn: process.env.JWT_EXPIRES_IN,
             });
 
