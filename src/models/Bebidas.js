@@ -35,4 +35,4 @@ const Bebidas = connection.define('bebidas', {
     }    
 });
 
-module.exports = Bebidas
+module.exports = Bebidas;

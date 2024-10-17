@@ -1,6 +1,10 @@
 const connection = require('../database/connection');
 const { DataTypes } = require('sequelize');
 
+const ItensPedidos = require('./ItensPedidos');
+const Pratos = require('./Pratos');
+const Bebidas = require('./Bebidas');
+
 const Pedidos = connection.define('pedidos', {
     restaurante_id: {
         type: DataTypes.INTEGER,
@@ -44,5 +48,20 @@ const Pedidos = connection.define('pedidos', {
         type: DataTypes.DATE
     }
 })
+
+// Associações
+Pedidos.belongsToMany(Pratos, {
+    through: ItensPedidos,
+    foreignKey: 'pedido_id',
+    otherKey: 'prato_id',
+    as: 'pratos'
+});
+
+Pedidos.belongsToMany(Bebidas, {
+    through: ItensPedidos,
+    foreignKey: 'pedido_id',
+    otherKey: 'bebida_id',
+    as: 'bebidas'
+});
 
 module.exports = Pedidos
