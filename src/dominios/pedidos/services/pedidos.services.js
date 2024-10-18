@@ -2,6 +2,9 @@ const Pedidos = require('../../../models/Pedidos');
 const Pratos = require('../../../models/Pratos');
 const Bebidas = require('../../../models/Bebidas');
 
+const ItensPedidos = require('../../../models/ItensPedidos');
+const PagamentosServices = require('../../pagamentos/services/pagamentos.services');
+
 class PedidosServices {
     async create(body, token) {
         const transaction = await Pedidos.sequelize.transaction();
@@ -17,7 +20,7 @@ class PedidosServices {
 
             // Verifica se todos os pratos passados existem
             const existingPratos = await Promise.all(
-                body.pratos_id.map(prato_id => 
+                body.pratos_id.map(prato_id =>
                     Pratos.findOne({ where: { id: prato_id }, transaction })
                 )
             );
@@ -37,7 +40,7 @@ class PedidosServices {
 
             // Verifica se todas as bebidas passadas existem
             const existingBebidas = await Promise.all(
-                body.bebidas_id.map(bebida_id => 
+                body.bebidas_id.map(bebida_id =>
                     Bebidas.findOne({ where: { id: bebida_id }, transaction })
                 )
             );
@@ -55,8 +58,31 @@ class PedidosServices {
                 }
             }));
 
+            // Buscar itens do pedido e calcular o valor total
+            const itensPedido = await ItensPedidos.findAll({
+                where: { pedido_id: pedido.id },
+                include: [
+                    { model: Pratos, as: 'Prato' },
+                    { model: Bebidas, as: 'Bebida' }
+                ],
+                transaction
+            });
+
             // Confirma a transação
             await transaction.commit();
+
+            // Calcular o total somando o preço dos pratos e bebidas
+            const total = itensPedido.reduce((acc, item) => {
+                const pratoPreco = item.Prato ? parseFloat(item.Prato.preco) : 0;
+                const bebidaPreco = item.Bebida ? parseFloat(item.Bebida.preco) : 0;
+                return acc + pratoPreco + bebidaPreco;
+            }, 0);
+
+            // Formatar o total para duas casas decimais
+            const totalFormatado = parseFloat(total.toFixed(2));
+
+            // Cria o pagamento
+            await PagamentosServices.create(pedido.id, totalFormatado, 'Pendente');
 
             return pedido;
         } catch (error) {
