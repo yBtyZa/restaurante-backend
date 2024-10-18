@@ -1,6 +1,9 @@
 const connection = require('../database/connection');
 const { DataTypes } = require('sequelize');
 
+const Pratos = require('./Pratos');
+const Bebidas = require('./Bebidas');
+
 const ItensPedidos = connection.define('itens_pedidos', {
     pedido_id: {
         type: DataTypes.INTEGER,
@@ -35,5 +38,9 @@ const ItensPedidos = connection.define('itens_pedidos', {
         type: DataTypes.DATE
       }
 });
+
+// Associações
+ItensPedidos.belongsTo(Pratos, { foreignKey: 'prato_id', as: 'Prato' });
+ItensPedidos.belongsTo(Bebidas, { foreignKey: 'bebida_id', as: 'Bebida' });
 
 module.exports = ItensPedidos
