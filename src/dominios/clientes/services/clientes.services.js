@@ -1,5 +1,6 @@
 const Clientes = require('../../../models/Clientes');
 const Restaurantes = require('../../../models/Restaurantes');
+const { Op } = require('sequelize');
 
 const { hashSync } = require('bcryptjs');
 
@@ -71,10 +72,10 @@ class ClientesServices {
             // Verifica se o email passado ja existe
             if (email) {
                 // Procura um cliente com o mesmo email, mas pertence ao mesmo restaurante
-                const existingCliente = await Clientes.findOne({ where: { email, restaurante_id }, transaction });
+                const existingCliente = await Clientes.findOne({ where: { email, restaurante_id, id: { [Op.ne]: cliente_id } }, transaction });
     
                 // Se o email já existe e pertence ao mesmo restaurante, lança um erro
-                if (existingCliente && existingCliente.id !== cliente_id) {
+                if (existingCliente) {
                     throw new Error("Email já cadastrado para este restaurante");
                 }
             }

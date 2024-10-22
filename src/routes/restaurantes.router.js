@@ -17,10 +17,16 @@ restauranteRouter.delete('/', validaToken, controlePermissao(['restaurante']), R
 restauranteRouter.get('/all', RestauranteController.listAll);
 restauranteRouter.get('/:id', RestauranteController.listOne);
 
-// Rotas Pratos
+// Rotas Pratos privadas
 restauranteRouter.post('/:id/pratos', validaToken, controlePermissao(['restaurante']), PratosController.create)
+restauranteRouter.put('/:id/pratos/:prato_id', validaToken, controlePermissao(['restaurante']), PratosController.update)
+restauranteRouter.delete('/:id/pratos/:prato_id', validaToken, controlePermissao(['restaurante']), PratosController.delete)
 
-// Rotas Bebidas
+// Rotas Pratos publicas
+restauranteRouter.get('/:id/pratos/all', PratosController.listAll)
+restauranteRouter.get('/:id/pratos/:prato_id', PratosController.listOne)
+
+// Rotas Bebidas privadas
 restauranteRouter.post('/:id/bebidas', validaToken, controlePermissao(['restaurante']), BebidasController.create)
 
 module.exports = restauranteRouter;
