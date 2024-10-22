@@ -1,8 +1,7 @@
 function controlePermissao(permissoesRequeridas) {
     return async (req, res, next) => {
         try {
-            const { token } = req
-            const permissao = token.permissao
+            const { permissao } = req.token;
             if (!permissoesRequeridas.includes(permissao)) {
                 return res.status(403).json({ message: 'Você não tem permissão para acessar essa rota' });
             }
