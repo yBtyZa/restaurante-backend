@@ -83,6 +83,30 @@ class RestauranteServices {
         }
     }
 
+    async delete(restaurante_id) {
+        // Inicia a transação
+        const transaction = await Restaurantes.sequelize.transaction();
+        try {
+            // Deleta o restaurante
+            const restaurante = await Restaurantes.destroy({ where: { id: restaurante_id } });
+            // Verifica se o restaurante existe
+            if (!restaurante) {
+                throw new Error("Restaurante não encontrado");
+            }
+
+            // Confirma a transação
+            await transaction.commit();
+
+            return
+        } catch (error) {
+            // Faz rollback em caso de erro
+            await transaction.rollback();
+
+            // Deixa o controller lidar com o erro
+            throw error;
+        }
+    }
+
     async listOne(id) {
         try {
             // Lista um restaurante

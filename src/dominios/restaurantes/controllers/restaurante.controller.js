@@ -71,6 +71,22 @@ class RestauranteController {
         }
     }
 
+    async delete(req, res) {
+        const { restaurante_id } = req.token;
+        try {
+            // Deleta o restaurante logado
+            await RestauranteServices.delete(restaurante_id);
+            return res.status(204).json();
+        } catch (error) {
+            // Caso o restaurante não exista
+            if (error.message === "Restaurante não encontrado") {
+                return res.status(404).json({ message: error.message });
+            }
+            // Para outros erros, retorna status 500
+            return res.status(500).json({ message: "Erro no servidor. Por favor, tente novamente." });
+        }
+    }
+
     async listOne(req, res) {
         const { id } = req.params;
         try {
