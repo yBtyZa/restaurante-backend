@@ -27,6 +27,26 @@ class RestauranteServices {
             throw error;
         }
     }
+
+    async listOne(id) {
+        try { 
+            // Lista um restaurante
+            const restaurante = await Restaurantes.findOne({ 
+                where: { id },
+                attributes: { exclude: [ 'email', 'senha', 'permissao', 'createdAt', 'updatedAt', 'deletedAt'] }
+            });
+
+            // Verifica se o restaurante existe
+            if (!restaurante) {
+                throw new Error("Restaurante não encontrado");
+            }
+
+            return restaurante;
+        } catch (error) {
+            // Deixa o controller lidar com o erro
+            throw error;
+        }
+    }
 }
 
 module.exports = new RestauranteServices();
