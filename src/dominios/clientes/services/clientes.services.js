@@ -78,6 +78,30 @@ class ClientesServices {
         }
     }
 
+    async delete(cliente_id) {
+        // Inicia a transação
+        const transaction = await Clientes.sequelize.transaction();
+        try {
+            // Verifica se o cliente existe
+            const existingCliente = await Clientes.findOne({ where: { id: cliente_id }, transaction });
+            if (!existingCliente) {
+                throw new Error("Cliente não encontrado");
+            }
+            // Deleta o cliente
+            await Clientes.destroy({ where: { id: cliente_id }, transaction });
+            // Confirma a transação
+            await transaction.commit();
+
+            return
+        } catch (error) {
+            // Faz rollback em caso de erro
+            await transaction.rollback();
+
+            // Deixa o controller lidar com o erro
+            throw error;
+        }
+    }
+
     async listAll(restaurante_id){
         try {
             // Lista todos os clientes

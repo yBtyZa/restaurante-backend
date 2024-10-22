@@ -57,6 +57,22 @@ class ClientesController {
         }
     }
 
+    async delete(req, res) {
+        const { cliente_id } = req.token;
+        try {
+            // Deleta o cliente logado
+            await ClientesServices.delete(cliente_id);
+            return res.status(204).json();
+        } catch (error) {
+            // Caso o cliente não exista
+            if (error.message === "Cliente não encontrado") {
+                return res.status(404).json({ message: error.message });
+            }
+            // Para outros erros, retorna status 500
+            return res.status(500).json({ message: "Erro no servidor. Por favor, tente novamente." });
+        }
+    }
+
     async listAll(req, res) {
         const { restaurante_id } = req.token;
         try {

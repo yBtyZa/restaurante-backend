@@ -8,6 +8,7 @@ const clientesRouter = Router();
 
 clientesRouter.post('/', clientesController.create);
 clientesRouter.put('/', validaToken, controlePermissao(['cliente']), clientesController.update);
+clientesRouter.delete('/', validaToken, controlePermissao(['cliente']), clientesController.delete);
 
 // Rotas Restaurante
 clientesRouter.get('/', validaToken, controlePermissao(['restaurante']), clientesController.listAll);
