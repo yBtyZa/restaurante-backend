@@ -102,6 +102,23 @@ class PratosServices {
             throw error;
         }
     }
+
+    async listOne(id, prato_id) {
+        try {
+            // Lista um prato
+            const prato = await Pratos.findOne({ where: { restaurante_id: id, id: prato_id }, attributes: { exclude: ['createdAt', 'updatedAt', 'deletedAt'] } });
+
+            // Verifica se o prato existe
+            if (!prato) {
+                throw new Error("Prato não encontrado");
+            }
+
+            return prato;
+        } catch (error) {
+            // Deixa o controller lidar com o erro
+            throw error;
+        }
+    }
 }
 
 module.exports = new PratosServices();
