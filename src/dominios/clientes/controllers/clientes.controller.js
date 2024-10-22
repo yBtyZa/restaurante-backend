@@ -1,5 +1,6 @@
 const ClientesServices = require('../services/clientes.services');
 const schema = require('../../../validations/schemaClientes');
+const schemaUpdate = require('../../../validations/schemaUpdateCliente');
 const Yup = require('yup');
 
 class ClientesController {
@@ -25,6 +26,33 @@ class ClientesController {
                 return res.status(400).json({ message: error.message });
             }
             
+            return res.status(500).json({ message: "Erro no servidor. Por favor, tente novamente." });
+        }
+    }
+
+    async update(req, res) {
+        const { cliente_id,  restaurante_id} = req.token;
+        const { body } = req;
+        try {
+            // Valida o body da requisição com o esquema Yup
+            await schemaUpdate.validate(body, { abortEarly: false });
+
+            // Atualiza o cliente logado
+            const cliente = await ClientesServices.update(cliente_id, restaurante_id, body);
+            return res.status(200).json(cliente);
+        } catch (error) {
+            console.log(error);
+            // Verifica se o erro é de validação do Yup
+            if (error instanceof Yup.ValidationError) {
+                return res.status(400).json({ message: error.errors });
+            }
+
+            // Verifica se o erro é relacionado ao email duplicado
+            if (error.message === "Email já cadastrado para este restaurante") {
+                return res.status(400).json({ message: error.message });
+            }
+
+            // Para outros erros, retorna status 500
             return res.status(500).json({ message: "Erro no servidor. Por favor, tente novamente." });
         }
     }

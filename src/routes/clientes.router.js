@@ -7,6 +7,7 @@ const controlePermissao = require('../middlewares/controlePermissao');
 const clientesRouter = Router();
 
 clientesRouter.post('/', clientesController.create);
+clientesRouter.put('/', validaToken, controlePermissao(['cliente']), clientesController.update);
 
 // Rotas Restaurante
 clientesRouter.get('/', validaToken, controlePermissao(['restaurante']), clientesController.listAll);

@@ -1,6 +1,8 @@
 const Clientes = require('../../../models/Clientes');
 const Restaurantes = require('../../../models/Restaurantes');
 
+const { hashSync } = require('bcryptjs');
+
 class ClientesServices {
 
     async create(body) {
@@ -33,6 +35,40 @@ class ClientesServices {
             await transaction.commit();
 
             return cliente;
+        } catch (error) {
+            // Faz rollback em caso de erro
+            await transaction.rollback();
+
+            // Deixa o controller lidar com o erro
+            throw error;
+        }
+    }
+
+    async update(cliente_id, restaurante_id, { nome, telefone, email, endereco, senha }) {
+        // Inicia a transação
+        const transaction = await Clientes.sequelize.transaction();
+        try {
+            // Verifica se o email passado ja existe
+            if (email) {
+                // Procura um cliente com o mesmo email, mas pertence ao mesmo restaurante
+                const existingCliente = await Clientes.findOne({ where: { email, restaurante_id }, transaction });
+    
+                // Se o email já existe e pertence ao mesmo restaurante, lança um erro
+                if (existingCliente && existingCliente.id !== cliente_id) {
+                    throw new Error("Email já cadastrado para este restaurante");
+                }
+            }
+            // Se uma senha nova foi fornecida, faz o hash
+            if (senha) {
+                senha = hashSync(senha, 10);
+            }
+            await Clientes.update({ nome, telefone, email, endereco, senha }, { where: { id: cliente_id }, transaction });
+            // Confirma a transação
+            await transaction.commit();
+
+            return {
+                message: "Cliente atualizado com sucesso"
+            };
         } catch (error) {
             // Faz rollback em caso de erro
             await transaction.rollback();
