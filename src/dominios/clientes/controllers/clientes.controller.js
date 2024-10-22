@@ -29,6 +29,22 @@ class ClientesController {
         }
     }
 
+    async listAll(req, res) {
+        const { restaurante_id } = req.token;
+        try {
+            // Lista todos os clientes
+            const clientes = await ClientesServices.listAll(restaurante_id);
+            return res.status(200).json(clientes);
+        } catch (error) {
+            // Se nenhum cliente for encontrado
+            if (error.message === "Nenhum cliente encontrado") {
+                return res.status(404).json({ message: error.message });
+            }
+            // Para outros erros, retorna status 500
+            return res.status(500).json({ message: "Erro no servidor. Por favor, tente novamente." });
+        }
+    }
+
 }
 
 module.exports = new ClientesController()

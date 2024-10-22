@@ -41,6 +41,23 @@ class ClientesServices {
             throw error;
         }
     }
+
+    async listAll(restaurante_id){
+        try {
+            // Lista todos os clientes
+            const clientes = await Clientes.findAll({ where: { restaurante_id } });
+
+            // Verifica se existe algum cliente
+            if (clientes.length === 0) {
+                throw new Error("Nenhum cliente encontrado");
+            }
+            return clientes;
+        } catch (error) {
+            // Deixa o controller lidar com o erro
+            throw error;
+        }
+        
+    }
 }
 
 module.exports = new ClientesServices();
