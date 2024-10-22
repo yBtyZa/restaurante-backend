@@ -28,6 +28,22 @@ class RestauranteController {
         }
     }
 
+    async listLogged(req, res) {
+        const { restaurante_id } = req.token;
+        try {
+            // Lista o restaurante logado
+            const restaurante = await RestauranteServices.listLogged(restaurante_id);
+            return res.status(200).json(restaurante);
+        } catch (error) {
+            // Caso o restaurante não exista
+            if (error.message === "Restaurante não encontrado") {
+                return res.status(404).json({ message: error.message });
+            }
+            // Para outros erros, retorna status 500
+            return res.status(500).json({ message: "Erro no servidor. Por favor, tente novamente." });
+        }   
+    }
+
     async listOne(req, res) {
         const { id } = req.params;
         try {

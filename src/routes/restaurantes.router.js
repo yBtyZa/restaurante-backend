@@ -8,10 +8,11 @@ const controlePermissao = require('../middlewares/controlePermissao');
 const restauranteRouter = Router();
 
 restauranteRouter.post('/', validaToken, controlePermissao(['admin']), RestauranteController.create);
+restauranteRouter.get('/', validaToken, controlePermissao(['admin', 'restaurante']), RestauranteController.listLogged);
 
 // Rotas publicas
+restauranteRouter.get('/all', RestauranteController.listAll);
 restauranteRouter.get('/:id', RestauranteController.listOne);
-restauranteRouter.get('/', RestauranteController.listAll);
 
 // Rotas Pratos
 restauranteRouter.post('/:id/pratos', validaToken, controlePermissao(['restaurante']), PratosController.create)

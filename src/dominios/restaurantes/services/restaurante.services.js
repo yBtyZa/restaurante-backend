@@ -28,6 +28,26 @@ class RestauranteServices {
         }
     }
 
+    async listLogged(restaurante_id) {
+        try {
+            // Lista o restaurante logado
+            const restaurante = await Restaurantes.findOne({ 
+                where: { id: restaurante_id },
+                attributes: { exclude: [ 'permissao', 'createdAt', 'updatedAt', 'deletedAt'] }
+            });
+            console.log(restaurante)
+            // Verifica se o restaurante existe
+            if (!restaurante) {
+                throw new Error("Restaurante não encontrado");
+            }
+
+            return restaurante;
+        } catch (error) {
+            // Deixa o controller lidar com o erro
+            throw error;
+        }
+    }
+
     async listOne(id) {
         try { 
             // Lista um restaurante
@@ -35,7 +55,6 @@ class RestauranteServices {
                 where: { id },
                 attributes: { exclude: [ 'email', 'senha', 'permissao', 'createdAt', 'updatedAt', 'deletedAt'] }
             });
-
             // Verifica se o restaurante existe
             if (!restaurante) {
                 throw new Error("Restaurante não encontrado");
