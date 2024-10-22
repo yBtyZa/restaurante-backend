@@ -9,6 +9,7 @@ const restauranteRouter = Router();
 
 restauranteRouter.post('/', validaToken, controlePermissao(['admin']), RestauranteController.create);
 restauranteRouter.get('/', validaToken, controlePermissao(['admin', 'restaurante']), RestauranteController.listLogged);
+restauranteRouter.put('/', validaToken, controlePermissao(['admin', 'restaurante']), RestauranteController.update);
 
 // Rotas publicas
 restauranteRouter.get('/all', RestauranteController.listAll);
