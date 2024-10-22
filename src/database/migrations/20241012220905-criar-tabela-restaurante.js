@@ -22,6 +22,11 @@ module.exports = {
          type: Sequelize.STRING,
          allowNull: false
        },
+       permissao: {
+         type: Sequelize.STRING,
+         allowNull: false,
+         defaultValue: 'restaurante'
+       },
        createdAt: {
          type: Sequelize.DATE,
          allowNull: false

@@ -14,7 +14,8 @@ function validaToken(req, res, next) {
         }
         req.token = {
             restaurante_id: tokenValido.restaurante_id,
-            cliente_id: tokenValido.cliente_id || null
+            cliente_id: tokenValido.cliente_id || null,
+            permissao: tokenValido.permissao
         }
 
         next();

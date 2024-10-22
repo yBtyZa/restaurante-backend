@@ -16,6 +16,11 @@ const Restaurante = connection.define('restaurantes', {
     type: DataTypes.STRING,
     allowNull: false
   },
+  permissao: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    defaultValue: 'restaurante'
+  },
   createdAt: {
     type: DataTypes.DATE,
     allowNull: false
