@@ -71,6 +71,22 @@ class PratosController {
             return res.status(500).json({ message: "Erro no servidor. Por favor, tente novamente." });
         }
     }
+
+    async listAll(req, res) {
+        const { id } = req.params;
+        try {
+            // Lista todos os pratos
+            const pratos = await PratosServices.listAll( id );
+            return res.status(200).json(pratos);
+        } catch (error) {
+            // Caso o prato não exista
+            if (error.message === "Nenhum prato encontrado") {
+                return res.status(404).json({ message: error.message });
+            }
+            // Para outros erros, retorna status 500
+            return res.status(500).json({ message: "Erro no servidor. Por favor, tente novamente." });
+        }
+    }
 }
 
 module.exports = new PratosController()

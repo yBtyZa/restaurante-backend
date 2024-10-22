@@ -22,6 +22,10 @@ restauranteRouter.post('/:id/pratos', validaToken, controlePermissao(['restauran
 restauranteRouter.put('/:id/pratos/:prato_id', validaToken, controlePermissao(['restaurante']), PratosController.update)
 restauranteRouter.delete('/:id/pratos/:prato_id', validaToken, controlePermissao(['restaurante']), PratosController.delete)
 
+// Rotas Pratos publicas
+restauranteRouter.get('/:id/pratos/all', PratosController.listAll)
+// restauranteRouter.get('/:id/pratos/:prato_id', PratosController.listOne)
+
 // Rotas Bebidas privadas
 restauranteRouter.post('/:id/bebidas', validaToken, controlePermissao(['restaurante']), BebidasController.create)
 

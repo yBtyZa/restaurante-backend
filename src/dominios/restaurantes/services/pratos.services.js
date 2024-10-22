@@ -85,6 +85,23 @@ class PratosServices {
             throw error;
         }
     }
+
+    async listAll( id ) {
+        try {
+            // Lista todos os pratos
+            const pratos = await Pratos.findAll({ where: { restaurante_id: id }, attributes: { exclude: ['createdAt', 'updatedAt', 'deletedAt'] } });
+
+            // Verifica se existe algum prato
+            if (pratos.length === 0) {
+                throw new Error("Nenhum prato encontrado");
+            }
+
+            return pratos;
+        } catch (error) {
+            // Deixa o controller lidar com o erro
+            throw error;
+        }
+    }
 }
 
 module.exports = new PratosServices();
