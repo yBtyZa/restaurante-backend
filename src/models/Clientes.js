@@ -30,6 +30,11 @@ const Clientes = connection.define('clientes', {
     type: DataTypes.STRING,
     allowNull: false
   },
+  permissao: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    defaultValue: 'cliente'
+  },
   createdAt: {
     type: DataTypes.DATE,
     allowNull: false
