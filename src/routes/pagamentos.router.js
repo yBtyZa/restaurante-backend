@@ -3,6 +3,6 @@ const pagamentosController = require('../dominios/pagamentos/controllers/pagamen
 
 const pagamentosRouter = Router();
 
-pagamentosRouter.post('/', pagamentosController.list);
+pagamentosRouter.get('/:id', pagamentosController.listOne);
 
 module.exports = pagamentosRouter;

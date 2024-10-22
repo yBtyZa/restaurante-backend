@@ -62,8 +62,8 @@ class PedidosServices {
             const itensPedido = await ItensPedidos.findAll({
                 where: { pedido_id: pedido.id },
                 include: [
-                    { model: Pratos, as: 'Prato' },
-                    { model: Bebidas, as: 'Bebida' }
+                    { model: Pratos, as: 'prato' },
+                    { model: Bebidas, as: 'bebida' }
                 ],
                 transaction
             });
@@ -73,8 +73,8 @@ class PedidosServices {
 
             // Calcular o total somando o preço dos pratos e bebidas
             const total = itensPedido.reduce((acc, item) => {
-                const pratoPreco = item.Prato ? parseFloat(item.Prato.preco) : 0;
-                const bebidaPreco = item.Bebida ? parseFloat(item.Bebida.preco) : 0;
+                const pratoPreco = item.prato ? parseFloat(item.prato.preco) : 0;
+                const bebidaPreco = item.bebida ? parseFloat(item.bebida.preco) : 0;
                 return acc + pratoPreco + bebidaPreco;
             }, 0);
 

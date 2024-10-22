@@ -13,7 +13,6 @@ class PedidosController {
             const pedido = await PedidosServices.create(body, token);
             return res.status(201).json(pedido);
         } catch (error) {
-            console.log(error);
             // Verifica se o erro é de validação do Yup
             if (error instanceof Yup.ValidationError) {
                 return res.status(400).json({ message: error.errors });

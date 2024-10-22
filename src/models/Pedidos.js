@@ -64,4 +64,10 @@ Pedidos.belongsToMany(Bebidas, {
     as: 'bebidas'
 });
 
+Pedidos.hasMany(ItensPedidos, {
+    foreignKey: 'pedido_id',
+    as: 'itens_pedidos'
+  });
+  
+
 module.exports = Pedidos

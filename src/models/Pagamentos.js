@@ -1,6 +1,8 @@
 const connection = require('../database/connection');
 const { DataTypes } = require('sequelize');
 
+const Pedidos = require('./Pedidos');
+
 const Pagamentos = connection.define('pagamentos', {
     pedido_id: {
         type: DataTypes.INTEGER,
@@ -30,5 +32,11 @@ const Pagamentos = connection.define('pagamentos', {
         type: DataTypes.DATE
     }
 });
+
+Pagamentos.belongsTo(Pedidos, {
+    foreignKey: 'pedido_id', // A chave estrangeira que relaciona os pedidos
+    as: 'pedido' // Alias da associação
+  });
+  
 
 module.exports = Pagamentos
