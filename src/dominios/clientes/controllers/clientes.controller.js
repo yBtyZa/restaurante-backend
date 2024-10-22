@@ -30,6 +30,22 @@ class ClientesController {
         }
     }
 
+    async listLogged(req, res) {
+        const { cliente_id } = req.token;
+        try {
+            // Lista o cliente logado
+            const cliente = await ClientesServices.listLogged(cliente_id);
+            return res.status(200).json(cliente);
+        } catch (error) {
+            // Caso o cliente não exista
+            if (error.message === "Cliente não encontrado") {
+                return res.status(404).json({ message: error.message });
+            }
+            // Para outros erros, retorna status 500
+            return res.status(500).json({ message: "Erro no servidor. Por favor, tente novamente." });
+        }
+    }
+
     async update(req, res) {
         const { cliente_id,  restaurante_id} = req.token;
         const { body } = req;

@@ -44,6 +44,26 @@ class ClientesServices {
         }
     }
 
+    async listLogged(cliente_id) {
+        try {
+            // Lista o cliente logado
+            const cliente = await Clientes.findOne({ 
+                where: { id: cliente_id },
+                attributes: { exclude: ['senha', 'permissao', 'createdAt', 'updatedAt', 'deletedAt'] }
+            });
+
+            // Verifica se o cliente existe
+            if (!cliente) {
+                throw new Error("Cliente não encontrado");
+            }
+
+            return cliente;
+        } catch (error) {
+            // Deixa o controller lidar com o erro
+            throw error;
+        }
+    }
+
     async update(cliente_id, restaurante_id, { nome, telefone, email, endereco, senha }) {
         // Inicia a transação
         const transaction = await Clientes.sequelize.transaction();
