@@ -19,6 +19,7 @@ restauranteRouter.get('/:id', RestauranteController.listOne);
 
 // Rotas Pratos
 restauranteRouter.post('/:id/pratos', validaToken, controlePermissao(['restaurante']), PratosController.create)
+restauranteRouter.put('/:id/pratos/:prato_id', validaToken, controlePermissao(['restaurante']), PratosController.update)
 
 // Rotas Bebidas
 restauranteRouter.post('/:id/bebidas', validaToken, controlePermissao(['restaurante']), BebidasController.create)

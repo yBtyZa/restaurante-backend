@@ -1,4 +1,5 @@
 const Pratos = require('../../../models/Pratos');
+const { Op } = require('sequelize');
 
 class PratosServices {
 
@@ -22,6 +23,33 @@ class PratosServices {
             await transaction.commit();
 
             return prato;
+        } catch (error) {
+            // Faz rollback em caso de erro
+            await transaction.rollback();
+            
+            // Deixa o controller lidar com o erro
+            throw error;
+        }
+    }
+
+    async update(prato_id, { nome, descricao, preco }) {
+        // Inicia a transação
+        const transaction = await Pratos.sequelize.transaction();
+
+        try {
+            // Verifica se o prato existe 
+            const existingPrato = await Pratos.findOne({ where: { nome, id: { [Op.ne]: prato_id } }, transaction });
+            if (existingPrato) {
+                throw new Error("Prato já cadastrado");
+            }
+
+            // Atualiza o prato
+            await Pratos.update({ nome, descricao, preco}, { where: { id: prato_id }}, transaction );
+
+            // Confirma a transação
+            await transaction.commit();
+
+            return { message: "Prato atualizado com sucesso" };
         } catch (error) {
             // Faz rollback em caso de erro
             await transaction.rollback();
