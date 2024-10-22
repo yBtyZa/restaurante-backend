@@ -43,6 +43,21 @@ class RestauranteController {
             return res.status(500).json({ message: "Erro no servidor. Por favor, tente novamente." });
         }
     }
+
+    async listAll(req, res) {
+        try {
+            // Lista todos os restaurantes
+            const restaurantes = await RestauranteServices.listAll();
+            return res.status(200).json(restaurantes);
+        } catch (error) {
+            // Se nenhum restaurante for encontrado
+            if (error.message === "Nenhum restaurante encontrado") {
+                return res.status(404).json({ message: error.message });
+            }
+            // Para outros erros, retorna status 500
+            return res.status(500).json({ message: "Erro no servidor. Por favor, tente novamente." });
+        }
+    }
 }
 
 module.exports = new RestauranteController();

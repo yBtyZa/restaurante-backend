@@ -47,6 +47,25 @@ class RestauranteServices {
             throw error;
         }
     }
+
+    async listAll() {
+        try {
+            // Lista todos os restaurantes
+            const restaurantes = await Restaurantes.findAll({
+                attributes: { exclude: [ 'email', 'senha', 'permissao', 'createdAt', 'updatedAt', 'deletedAt'] }
+            });
+
+            // Verifica se existe algum restaurante
+            if (!restaurantes) {
+                throw new Error("Nenhum restaurante encontrado");
+            }
+
+            return restaurantes;
+        } catch (error) {
+            // Deixa o controller lidar com o erro
+            throw error;
+        }
+    }
 }
 
 module.exports = new RestauranteServices();
