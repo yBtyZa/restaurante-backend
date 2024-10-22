@@ -26,7 +26,7 @@ class PratosServices {
         } catch (error) {
             // Faz rollback em caso de erro
             await transaction.rollback();
-            
+
             // Deixa o controller lidar com o erro
             throw error;
         }
@@ -44,7 +44,7 @@ class PratosServices {
             }
 
             // Atualiza o prato
-            await Pratos.update({ nome, descricao, preco}, { where: { id: prato_id }}, transaction );
+            await Pratos.update({ nome, descricao, preco }, { where: { id: prato_id } }, transaction);
 
             // Confirma a transação
             await transaction.commit();
@@ -53,12 +53,38 @@ class PratosServices {
         } catch (error) {
             // Faz rollback em caso de erro
             await transaction.rollback();
-            
+
             // Deixa o controller lidar com o erro
             throw error;
         }
     }
 
+    async delete(prato_id) {
+        // Inicia a transação
+        const transaction = await Pratos.sequelize.transaction();
+
+        try {
+            // Verifica se o prato existe
+            const existingPrato = await Pratos.findOne({ where: { id: prato_id }, transaction });
+            if (!existingPrato) {
+                throw new Error("Prato não encontrado");
+            }
+
+            // Deleta o prato
+            await Pratos.destroy({ where: { id: prato_id } }, transaction);
+
+            // Confirma a transação
+            await transaction.commit();
+
+            return { message: "Prato excluído com sucesso" };
+        } catch (error) {
+            // Faz rollback em caso de erro
+            await transaction.rollback();
+
+            // Deixa o controller lidar com o erro
+            throw error;
+        }
+    }
 }
 
 module.exports = new PratosServices();
