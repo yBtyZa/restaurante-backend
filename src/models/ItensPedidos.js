@@ -40,7 +40,11 @@ const ItensPedidos = connection.define('itens_pedidos', {
 });
 
 // Associações
-ItensPedidos.belongsTo(Pratos, { foreignKey: 'prato_id', as: 'Prato' });
-ItensPedidos.belongsTo(Bebidas, { foreignKey: 'bebida_id', as: 'Bebida' });
+ItensPedidos.belongsTo(Pratos, { foreignKey: 'prato_id', as: 'prato' });
+ItensPedidos.belongsTo(Bebidas, { foreignKey: 'bebida_id', as: 'bebida' });
+
+Pratos.hasMany(ItensPedidos, { foreignKey: 'prato_id', as: 'itens_pedidos_prato' });
+Bebidas.hasMany(ItensPedidos, { foreignKey: 'bebida_id', as: 'itens_pedidos_bebida' });
+
 
 module.exports = ItensPedidos
