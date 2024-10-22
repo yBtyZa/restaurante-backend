@@ -45,7 +45,10 @@ class ClientesServices {
     async listAll(restaurante_id){
         try {
             // Lista todos os clientes
-            const clientes = await Clientes.findAll({ where: { restaurante_id } });
+            const clientes = await Clientes.findAll({ 
+                where: { restaurante_id },
+                attributes: { exclude: ['senha', 'permissao', 'createdAt', 'updatedAt', 'deletedAt'] }
+             });
 
             // Verifica se existe algum cliente
             if (clientes.length === 0) {
@@ -57,6 +60,26 @@ class ClientesServices {
             throw error;
         }
         
+    }
+
+    async listOne(id) {
+        try {
+            // Lista um cliente
+            const cliente = await Clientes.findOne({ 
+                where: { id },
+                attributes: { exclude: ['senha', 'permissao', 'createdAt', 'updatedAt', 'deletedAt'] }
+             });
+
+            // Verifica se o cliente existe
+            if (!cliente) {
+                throw new Error("Cliente não encontrado");
+            }
+
+            return cliente;
+        } catch (error) {
+            // Deixa o controller lidar com o erro
+            throw error;
+        }
     }
 }
 

@@ -7,7 +7,10 @@ const controlePermissao = require('../middlewares/controlePermissao');
 const clientesRouter = Router();
 
 clientesRouter.post('/', clientesController.create);
+
+// Rotas Restaurante
 clientesRouter.get('/', validaToken, controlePermissao(['restaurante']), clientesController.listAll);
+clientesRouter.get('/:id', validaToken, controlePermissao(['restaurante']), clientesController.listOne);
 
 
 

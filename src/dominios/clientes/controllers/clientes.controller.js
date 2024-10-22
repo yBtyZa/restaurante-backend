@@ -45,6 +45,22 @@ class ClientesController {
         }
     }
 
+    async listOne(req, res) {
+        const { id } = req.params;
+        try {
+            // Lista um cliente
+            const cliente = await ClientesServices.listOne(id);
+            return res.status(200).json(cliente);
+        } catch (error) {
+            // Caso o cliente nao exista
+            if (error.message === "Cliente não encontrado") {
+                return res.status(404).json({ message: error.message });
+            }
+            // Para outros erros, retorna status 500
+            return res.status(500).json({ message: "Erro no servidor. Por favor, tente novamente." });
+        }
+    }
+
 }
 
 module.exports = new ClientesController()
