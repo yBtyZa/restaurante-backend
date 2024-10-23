@@ -26,7 +26,7 @@ class BebidasServices {
         } catch (error) {
             // Faz rollback em caso de erro
             await transaction.rollback();
-            
+
             // Deixa o controller lidar com o erro
             throw error;
         }
@@ -37,7 +37,13 @@ class BebidasServices {
         const transaction = await Bebidas.sequelize.transaction();
 
         try {
-            // Verifica se a bebida existe 
+            // Verifica se a bebida com o ID fornecido existe
+            const bebida = await Bebidas.findByPk(bebida_id, { transaction });
+            if (!bebida) {
+                throw new Error("Bebida não encontrada");
+            }
+
+            // Verifica se já existe outra bebida com o mesmo nome
             const existingBebida = await Bebidas.findOne({ where: { nome, id: { [Op.ne]: bebida_id } }, transaction });
             if (existingBebida) {
                 throw new Error("Bebida já cadastrada");

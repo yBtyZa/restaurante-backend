@@ -47,6 +47,11 @@ class BebidasController {
                 return res.status(400).json({ message: error.errors });
             }
 
+            // Verifica se o erro é por bebida inexistente
+            if (error.message === "Bebida não encontrada") {
+                return res.status(404).json({ message: error.message });
+            }
+
             // Verifica se o erro é relacionado ao nome duplicado
             if (error.message === "Bebida já cadastrada") {
                 return res.status(400).json({ message: error.message });

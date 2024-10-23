@@ -37,7 +37,13 @@ class PratosServices {
         const transaction = await Pratos.sequelize.transaction();
 
         try {
-            // Verifica se o prato existe 
+            // Verifica se o prato com o ID fornecido existe
+            const prato = await Pratos.findByPk(prato_id, { transaction });
+            if (!prato) {
+                throw new Error("Prato não encontrado");
+            }
+
+            // Verifica se já existe outro prato com o mesmo nome
             const existingPrato = await Pratos.findOne({ where: { nome, id: { [Op.ne]: prato_id } }, transaction });
             if (existingPrato) {
                 throw new Error("Prato já cadastrado");
@@ -86,7 +92,7 @@ class PratosServices {
         }
     }
 
-    async listAll( id ) {
+    async listAll(id) {
         try {
             // Lista todos os pratos
             const pratos = await Pratos.findAll({ where: { restaurante_id: id }, attributes: { exclude: ['createdAt', 'updatedAt', 'deletedAt'] } });

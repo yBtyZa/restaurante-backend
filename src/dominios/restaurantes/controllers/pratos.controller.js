@@ -46,6 +46,11 @@ class PratosController {
                 return res.status(400).json({ message: error.errors });
             }
 
+            // Verifica se o erro é por prato inexistente
+            if (error.message === "Prato não encontrado") {
+                return res.status(404).json({ message: error.message });
+            }
+
             // Verifica se o erro é relacionado ao nome duplicado
             if (error.message === "Prato já cadastrado") {
                 return res.status(400).json({ message: error.message });
