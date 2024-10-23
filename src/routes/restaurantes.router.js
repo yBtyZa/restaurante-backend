@@ -29,5 +29,6 @@ restauranteRouter.get('/:id/pratos/:prato_id', PratosController.listOne)
 // Rotas Bebidas privadas
 restauranteRouter.post('/:id/bebidas', validaToken, controlePermissao(['restaurante']), BebidasController.create)
 restauranteRouter.put('/:id/bebidas/:bebida_id', validaToken, controlePermissao(['restaurante']), BebidasController.update)
+restauranteRouter.delete('/:id/bebidas/:bebida_id', validaToken, controlePermissao(['restaurante']), BebidasController.delete)
 
 module.exports = restauranteRouter;

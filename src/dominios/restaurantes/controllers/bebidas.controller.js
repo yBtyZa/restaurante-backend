@@ -56,6 +56,22 @@ class BebidasController {
             return res.status(500).json({ message: "Erro no servidor. Por favor, tente novamente." });
         }
     }
+
+    async delete(req, res) {
+        const { bebida_id } = req.params;
+        try {
+            // Deleta a bebida
+            await BebidasServices.delete(bebida_id);
+            return res.status(204).json();
+        } catch (error) {
+            // Caso a bebida não exista
+            if (error.message === "Bebida não encontrada") {
+                return res.status(404).json({ message: error.message });
+            }
+            // Para outros erros, retorna status 500
+            return res.status(500).json({ message: "Erro no servidor. Por favor, tente novamente." });
+        }
+    }
 }
 
 module.exports = new BebidasController()

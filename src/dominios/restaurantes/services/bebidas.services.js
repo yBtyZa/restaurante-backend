@@ -59,6 +59,33 @@ class BebidasServices {
         }
     }
 
+    async delete(bebida_id) {
+        // Inicia a transação
+        const transaction = await Bebidas.sequelize.transaction();
+
+        try {
+            // Verifica se a bebida existe
+            const existingBebida = await Bebidas.findOne({ where: { id: bebida_id }, transaction });
+            if (!existingBebida) {
+                throw new Error("Bebida não encontrada");
+            }
+
+            // Deleta a bebida
+            await Bebidas.destroy({ where: { id: bebida_id } }, transaction);
+
+            // Confirma a transação
+            await transaction.commit();
+
+            return { message: "Bebida excluída com sucesso" };
+        } catch (error) {
+            // Faz rollback em caso de erro
+            await transaction.rollback();
+
+            // Deixa o controller lidar com o erro
+            throw error;
+        }
+    }
+
 }
 
 module.exports = new BebidasServices();
